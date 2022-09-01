@@ -6,6 +6,7 @@ import com.oxd.springbootmongodb.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,5 +29,11 @@ public class UserResource {
         List<User> users = userService.findAll();
         List<UserDTO> listDto = users.stream().map( x -> new UserDTO(x)).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(listDto);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> findOne(@PathVariable String id){
+        User user = userService.findByid(id);
+        return ResponseEntity.ok().body(new UserDTO(user));
     }
 }
