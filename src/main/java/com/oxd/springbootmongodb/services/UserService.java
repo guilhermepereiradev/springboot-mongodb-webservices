@@ -7,6 +7,7 @@ import com.oxd.springbootmongodb.services.exception.ObjectNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +39,12 @@ public class UserService {
     public void delete(String id){
         findByid(id);
         userRepository.deleteById(id);
+    }
+
+    public User update(User user, String id){
+        Optional<User> oldUser = userRepository.findById(id);
+        user.setId(oldUser.get().getId());
+        return userRepository.save(user);
     }
 
     public User fromDTO(UserDTO userDto){
