@@ -31,12 +31,18 @@ public class UserResource {
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> findOne(@PathVariable String id){
         User user = userService.findByid(id);
-        return ResponseEntity.ok().body(new UserDTO(user));
+        return ResponseEntity.status(HttpStatus.OK).body(new UserDTO(user));
     }
 
     @PostMapping
     public ResponseEntity<User> insert(@RequestBody UserDTO userDTO){
         User user = userService.fromDTO(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.insert(user));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id){
+        userService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
