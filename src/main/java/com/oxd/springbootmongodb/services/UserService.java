@@ -1,8 +1,10 @@
 package com.oxd.springbootmongodb.services;
 
 import com.oxd.springbootmongodb.domain.User;
+import com.oxd.springbootmongodb.dto.UserDTO;
 import com.oxd.springbootmongodb.repositories.UserRepository;
 import com.oxd.springbootmongodb.services.exception.ObjectNotFoundException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,5 +29,15 @@ public class UserService {
         return user.orElseThrow( () -> {
             throw new ObjectNotFoundException("Objeto não encontrado!");
         });
+    }
+
+    public User insert(User user){
+        return userRepository.insert(user);
+    }
+
+    public User fromDTO(UserDTO userDto){
+        var user = new User();
+        BeanUtils.copyProperties(userDto, user);
+        return user;
     }
 }
