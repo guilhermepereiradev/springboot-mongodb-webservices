@@ -1,5 +1,6 @@
 package com.oxd.springbootmongodb.resource;
 
+import com.oxd.springbootmongodb.domain.Post;
 import com.oxd.springbootmongodb.domain.User;
 import com.oxd.springbootmongodb.dto.UserDTO;
 import com.oxd.springbootmongodb.services.UserService;
@@ -49,5 +50,11 @@ public class UserResource {
     public ResponseEntity<User> update(@PathVariable String id, @RequestBody UserDTO user){
         User newUser = userService.fromDTO(user);
         return ResponseEntity.status(HttpStatus.OK).body(userService.update(newUser, id));
+    }
+
+    @GetMapping("/{id}/posts")
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id){
+        User user = userService.findByid(id);
+        return ResponseEntity.status(HttpStatus.OK).body(user.getPosts());
     }
 }
