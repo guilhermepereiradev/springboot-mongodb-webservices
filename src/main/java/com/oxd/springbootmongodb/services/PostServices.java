@@ -5,6 +5,7 @@ import com.oxd.springbootmongodb.repositories.PostRepository;
 import com.oxd.springbootmongodb.services.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,5 +23,9 @@ public class PostServices {
         return post.orElseThrow(()-> {
             throw new ObjectNotFoundException("Objeto não encontrado!");
         });
+    }
+
+    public List<Post> findByTitle(String text){
+        return postRepository.findByTitleContainingIgnoreCase(text);
     }
 }
